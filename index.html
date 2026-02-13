@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Secret Mission ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Dancing+Script:wght@700&family=Gochi+Hand&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Dark sci-fi outer background */
+            background-color: #1a1a1a;
+            background-image: radial-gradient(circle at center, #333 0%, #000 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* --- STAGE 1: THE VAULT (LOGIN) --- */
+        #login-screen {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid #555;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.1);
+            backdrop-filter: blur(10px);
+            width: 300px;
+            transition: transform 0.8s ease-in-out, opacity 0.8s;
+            z-index: 10;
+        }
+
+        .lock-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .unlock-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .unlock-btn:hover { background: #27ae60; }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* --- STAGE 2: INSIDE THE VAULT (PROPOSAL) --- */
+        #vault-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            /* Romantic pink background inside */
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%); 
+            justify-content: center;
+            position: absolute;
+            top: 0; left: 0;
+            animation: fadeIn 1s ease;
+            z-index: 5;
+        }
+
+        /* Container for Photo + Doodle Sticker */
+        .photo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .couple-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* --- NEW DOODLE STICKER --- */
+        .doodle-sticker {
+            position: absolute;
+            top: 30px;
+            right: -140px; /* Position to the right of the photo */
+            background: #fff;
+            color: #333;
+            padding: 10px 15px;
+            /* Funky border radius for hand-drawn paper look */
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+            border: 2px dashed #555;
+            box-shadow: 3px 4px 8px rgba(0,0,0,0.15);
+            transform: rotate(8deg); /* Slight tilt */
+            display: flex;
+            align-items: center;
+            max-width: 130px;
+            z-index: 20;
+            animation: floatDoodle 3s ease-in-out infinite alternate;
+        }
+
+        .doodle-text {
+            font-family: 'Gochi Hand', cursive; /* Doodle font */
+            font-size: 1.1rem;
+            line-height: 1.1;
+            text-align: left;
+        }
+
+        .doodle-arrow {
+            width: 35px;
+            height: auto;
+            margin-right: 8px;
+            transform: rotate(-10deg);
+        }
+
+        @keyframes floatDoodle {
+            from { transform: rotate(8deg) translateY(0); }
+            to { transform: rotate(10deg) translateY(-5px); }
+        }
+        /* --------------------------- */
+
+
+        h1 {
+            color: #d81b60;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 0px white;
+        }
+
+        p.subtitle {
+            color: #880e4f;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            height: 100px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+        }
+
+        #yes-btn {
+            background-color: #e91e63;
+            color: white;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+            z-index: 10;
+        }
+
+        #no-btn {
+            background-color: #fff;
+            color: #555;
+            border: 2px solid #ccc;
+        }
+
+        .dare-text {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #ad1457;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        /* --- STAGE 3: SUCCESS --- */
+        #success-screen {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* Match the romantic background of the vault */
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            z-index: 100;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        #success-screen h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #d81b60;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px white;
+            padding: 0 20px;
+        }
+        
+        #success-screen p {
+             font-size: 1.3rem;
+             color: #880e4f;
+             max-width: 80%;
+             line-height: 1.5;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        /* Mobile adjust for sticker */
+        @media (max-width: 500px) {
+            .doodle-sticker {
+                right: -90px;
+                top: 100px;
+                max-width: 100px;
+            }
+             .doodle-text { font-size: 0.9rem; }
+             .doodle-arrow { width: 25px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <div class="lock-icon">🔒</div>
+        <h2 style="margin:0;">Security Check</h2>
+        <p style="font-size: 0.9rem; color: #ccc;">Who are you to Dhruv?</p>
+        
+        <input type="text" id="password" placeholder="ENTER PASSWORD">
+        <div class="error-msg" id="error">Access Denied. Try again!</div>
+        <br>
+        <button class="unlock-btn" onclick="checkPassword()">UNLOCK ❤️</button>
+    </div>
+
+    <div id="vault-content">
+        
+        <div class="photo-container">
+            <img src="valentine.jpeg" alt="Us" class="couple-photo">
+            
+            <div class="doodle-sticker">
+                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Backhand%20Index%20Pointing%20Left.png" class="doodle-arrow" alt="arrow">
+                <div class="doodle-text">would be us if you say yes 🥺</div>
+            </div>
+        </div>
+        
+        <h1>Will you be my Valentine?</h1>
+        <p class="subtitle">Forever and always? 🌹</p>
+
+        <div class="buttons-container">
+            <button class="btn" id="yes-btn" onclick="sayYes()">YES!</button>
+            <button class="btn" id="no-btn" onclick="shrinkNo()">No</button>
+        </div>
+        
+        <div class="dare-text">(I dare you to try pressing No 😉)</div>
+    </div>
+
+    <div id="success-screen">
+        <h2>yayyyayyy!! lesssggooo 🥳💕</h2>
+        <p>Officially partners for this Valentine's Day, and every single one after! 💑✨</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        // --- LOGIC ---
+        function checkPassword() {
+            const input = document.getElementById('password').value.toUpperCase().trim();
+            const loginScreen = document.getElementById('login-screen');
+            const vaultContent = document.getElementById('vault-content');
+            const errorMsg = document.getElementById('error');
+
+            // PASSWORD CHECK (Allows WIFEY, Wifey, wifey, etc.)
+            if (input === "WIFEY") {
+                // Success Animation
+                loginScreen.style.transform = "scale(1.1)";
+                loginScreen.style.opacity = "0";
+                
+                setTimeout(() => {
+                    loginScreen.style.display = "none";
+                    vaultContent.style.display = "flex";
+                }, 500);
+            } else {
+                // Error Shake
+                errorMsg.style.display = "block";
+                loginScreen.style.transform = "translateX(10px)";
+                setTimeout(() => loginScreen.style.transform = "translateX(-10px)", 100);
+                setTimeout(() => loginScreen.style.transform = "translateX(0)", 200);
+            }
+        }
+
+        // --- BUTTON GAME ---
+        let noScale = 1;
+        let yesScale = 1;
+
+        function shrinkNo() {
+            const noBtn = document.getElementById('no-btn');
+            const yesBtn = document.getElementById('yes-btn');
+
+            // Shrink No
+            noScale -= 0.1;
+            noBtn.style.transform = `scale(${noScale})`;
+            
+            // Grow Yes
+            yesScale += 0.2;
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            // If No gets too small, hide it
+            if (noScale < 0.2) {
+                noBtn.style.display = 'none';
+                document.querySelector('.dare-text').innerText = "Okay, now you HAVE to say Yes! 😂";
+            }
+        }
+
+        function sayYes() {
+            const vault = document.getElementById('vault-content');
+            const success = document.getElementById('success-screen');
+
+            vault.style.display = 'none';
+            success.style.display = 'flex';
+
+            fireConfetti();
+        }
+
+        function fireConfetti() {
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 200 };
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+        
+        // Allow Enter key to submit password
+        document.getElementById("password").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        });
+    </script>
+</body>
+</html>
